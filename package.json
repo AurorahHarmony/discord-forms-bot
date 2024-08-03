@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "start": "node dist/index.js",
-    "build": "tsup src/index.ts --minify"
+    "build": "tsup src/index.ts --minify",
+    "deploy-commands": "ts-node src/deploy-commands.ts"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +18,7 @@
   },
   "devDependencies": {
     "eslint": "^9.8.0",
+    "ts-node": "^10.9.2",
     "tsup": "^8.2.4",
     "tsx": "^4.16.5",
     "typescript": "^5.5.4"
