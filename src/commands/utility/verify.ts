@@ -22,7 +22,7 @@ const verifyCommand: Command = {
       .setTitle("Verification");
 
     const ageInput = new TextInputBuilder()
-      .setCustomId("ageInput")
+      .setCustomId("birthDate")
       .setLabel("What's your birth date? (Month/Day/Year)")
       .setPlaceholder("MM/DD/YYYY")
       .setRequired(true)
