@@ -3,6 +3,7 @@ import {
   CommandInteraction,
   PermissionFlagsBits,
   GuildMember,
+  ChatInputCommandInteraction,
   ModalBuilder,
   TextInputBuilder,
   TextInputStyle,
@@ -16,7 +17,7 @@ const verifyCommand: Command = {
     .setName("verify")
     .setDescription("Brings up the welcome form for you to verify your account")
     .setDMPermission(false),
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     const modal = new ModalBuilder()
       .setCustomId("verifyModal")
       .setTitle("Verification");
