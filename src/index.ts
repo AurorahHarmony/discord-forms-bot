@@ -1,14 +1,25 @@
 import fs from "fs";
 import path from "path";
 import { Events, GatewayIntentBits } from "discord.js";
+import { Sequelize } from "sequelize-typescript";
 import { config } from "./config";
 import { ExtendedClient } from "./types/ExtendedClient";
 import { Command } from "./types/Command";
 import interactionCreate from "./events/interactionCreate";
+import { Form } from "./models/Form";
 
 const client = new ExtendedClient({
   intents: [GatewayIntentBits.Guilds],
 });
+
+const sequelize = new Sequelize("registration_forms", "user", "password", {
+  host: "localhost",
+  dialect: "sqlite",
+  logging: false,
+  storage: "database.sqlite",
+});
+
+sequelize.addModels([Form]);
 
 const foldersPath = path.join(__dirname, "commands");
 const commandFolders = fs.readdirSync(foldersPath);
