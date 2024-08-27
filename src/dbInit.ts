@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize-typescript";
 import { Form } from "./models/Form";
+import { FormField } from "./models/FormField";
 
 const sequelize = new Sequelize("registration_forms", "user", "password", {
   host: "localhost",
@@ -9,7 +10,7 @@ const sequelize = new Sequelize("registration_forms", "user", "password", {
   models: [__dirname + "/models/*.model.ts"],
 });
 
-sequelize.addModels([Form]);
+sequelize.addModels([Form, FormField]);
 
 sequelize
   .sync()

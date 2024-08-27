@@ -7,6 +7,7 @@ import { ExtendedClient } from "./types/ExtendedClient";
 import { Command } from "./types/Command";
 import interactionCreate from "./events/interactionCreate";
 import { Form } from "./models/Form";
+import { FormField } from "./models/FormField";
 
 const client = new ExtendedClient({
   intents: [GatewayIntentBits.Guilds],
@@ -19,7 +20,7 @@ const sequelize = new Sequelize("registration_forms", "user", "password", {
   storage: "database.sqlite",
 });
 
-sequelize.addModels([Form]);
+sequelize.addModels([Form, FormField]);
 
 const foldersPath = path.join(__dirname, "commands");
 const commandFolders = fs.readdirSync(foldersPath);

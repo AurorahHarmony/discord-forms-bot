@@ -132,3 +132,4 @@ dist
 # Custom
 config.json
 database.sqlite
+.DS_Store

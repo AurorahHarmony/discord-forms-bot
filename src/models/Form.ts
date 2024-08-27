@@ -7,10 +7,11 @@ import {
   DataType,
   Default,
   PrimaryKey,
-  IsUUID,
   AllowNull,
   Index,
+  HasMany,
 } from "sequelize-typescript";
+import { FormField } from "./FormField";
 
 @Table
 export class Form extends Model {
@@ -27,4 +28,7 @@ export class Form extends Model {
 
   @Column(DataType.STRING)
   name!: string;
+
+  @HasMany(() => FormField)
+  fields!: FormField[];
 }

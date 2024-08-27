@@ -1,6 +1,16 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction } from "discord.js";
+import {
+  SlashCommandBuilder,
+  ChatInputCommandInteraction,
+  AutocompleteInteraction,
+  StringSelectMenuBuilder,
+  StringSelectMenuOptionBuilder,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+} from "discord.js";
 import { Command } from "../../types/Command";
 import { Form } from "../../models/Form";
+import { Op } from "sequelize";
 
 const verifyCommand: Command = {
   data: new SlashCommandBuilder()
@@ -26,8 +36,43 @@ const verifyCommand: Command = {
         .setDescription("List all of your registration forms")
     )
     .addSubcommand((subcommand) =>
-      subcommand.setName("edit").setDescription("Edit a form")
+      subcommand
+        .setName("edit")
+        .setDescription("Edit a form")
+        .addStringOption((option) =>
+          option
+            .setName("form-name")
+            .setRequired(true)
+            .setDescription("Name of the form you want to edit")
+            .setAutocomplete(true)
+        )
     ),
+  async autocomplete(interaction: AutocompleteInteraction) {
+    const focusedOption = interaction.options.getFocused(true);
+
+    let choices: { name: string; value: string }[] = [];
+
+    if (focusedOption.name === "form-name") {
+      const forms = await Form.findAll({
+        where: {
+          server_id: interaction.guildId,
+          name: { [Op.like]: `${focusedOption.value.toLowerCase()}%` },
+        },
+        limit: 25,
+      });
+
+      choices = forms.map((form) => ({
+        name: form.name,
+        value: form.uuid,
+      }));
+    }
+
+    if (choices.length === 0) {
+      await interaction.respond([{ name: "No results", value: "no_results" }]);
+    } else {
+      await interaction.respond(choices);
+    }
+  },
   async execute(interaction: ChatInputCommandInteraction) {
     switch (interaction.options.getSubcommand()) {
       case "create":
@@ -37,10 +82,7 @@ const verifyCommand: Command = {
         showFormList(interaction);
         break;
       case "edit":
-        await interaction.reply({
-          content: "This command is not yet implemented",
-          ephemeral: true,
-        });
+        showFormEditor(interaction);
         break;
       default:
         await interaction.reply({
@@ -106,6 +148,70 @@ const showFormList = async (interaction: ChatInputCommandInteraction) => {
       ephemeral: true,
     });
   }
+};
+
+const showFormEditor = async (interaction: ChatInputCommandInteraction) => {
+  const formId = interaction.options.getString("form-name");
+
+  const form = await Form.findOne({
+    where: {
+      uuid: formId,
+      server_id: interaction.guildId,
+    },
+  });
+
+  if (!form) {
+    await interaction.reply({
+      content: "Form not found",
+      ephemeral: true,
+    });
+    return;
+  }
+  const select = new StringSelectMenuBuilder()
+    .setCustomId("selection")
+    .setPlaceholder("What field would you like to edit?")
+    .addOptions(
+      new StringSelectMenuOptionBuilder()
+        .setLabel("Field 1")
+        .setDescription("Description of field 1")
+        .setValue("someid"),
+      new StringSelectMenuOptionBuilder()
+        .setLabel("Field 2")
+        .setDescription("Description of field 2")
+        .setValue("someid2"),
+      new StringSelectMenuOptionBuilder()
+        .setLabel("Field 3")
+        .setDescription("Description of field 3")
+        .setValue("someid3")
+    );
+
+  const row1 = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+    select
+  );
+
+  const addField = new ButtonBuilder()
+    .setCustomId("addField")
+    .setLabel("Add Field")
+    .setStyle(ButtonStyle.Secondary);
+  const editField = new ButtonBuilder()
+    .setCustomId("editField")
+    .setLabel("Edit Field")
+    .setStyle(ButtonStyle.Secondary);
+  const deleteField = new ButtonBuilder()
+    .setCustomId("deleteField")
+    .setLabel("Delete Field")
+    .setStyle(ButtonStyle.Secondary);
+
+  const row2 = new ActionRowBuilder<ButtonBuilder>().addComponents(
+    addField,
+    editField,
+    deleteField
+  );
+
+  await interaction.reply({
+    content: "Now editing " + form.name,
+    components: [row1, row2],
+  });
 };
 
 export default verifyCommand;
