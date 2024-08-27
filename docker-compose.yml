@@ -1,0 +1,14 @@
+services:
+  bot:
+    container_name: discord_verification_form
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DISCORD_TOKEN: ${DISCORD_TOKEN}
+      DISCORD_CLIENT_ID: ${DISCORD_CLIENT_ID}
+      DEV_SERVER_ID: ${DEV_SERVER_ID}
+      VERIFICATION_CHANNEL: ${VERIFICATION_CHANNEL}
+      VERIFICATION_OUTPUT_CHANNEL: ${VERIFICATION_OUTPUT_CHANNEL}
+      BLACKLIST_ROLE: ${BLACKLIST_ROLE}
+    restart: unless-stopped
