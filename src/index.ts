@@ -48,6 +48,23 @@ client.on(Events.GuildMemberAdd, async (member) => {
   }
 });
 
+client.on(Events.GuildMemberRemove, async (member) => {
+  try {
+    const channel = await member.guild.channels.fetch(
+      config.VERIFICATION_CHANNEL
+    );
+
+    // Send Welcome in server
+    if (channel?.isTextBased()) {
+      channel.send({
+        content: `${member.user.username} (<@${member.user.id}>) has left the server.`,
+      });
+    }
+  } catch (error) {
+    console.error("Failed to send welcome message:", error);
+  }
+});
+
 client.once(Events.ClientReady, (readyClient) => {
   console.log(`Ready! Logged in as ${readyClient.user.tag}`);
 });
