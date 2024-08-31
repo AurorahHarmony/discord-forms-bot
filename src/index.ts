@@ -28,21 +28,25 @@ client.on(Events.GuildMemberAdd, async (member) => {
     );
 
     const welcomeEmbed = new EmbedBuilder()
-      .setTitle(`Welcome ${member.user.username}`)
+      // .setTitle(`Welcome ${member.user.username}`)
       .setDescription(
-        `Welcome to ${config.SERVER_NAME} <@${member.user.id}>!\n\nPlease read the rules in ⁠<#${config.RULES_CHANNEL}> and use the /verify command once complete.\n\nA Staff member will then review your application and give you access to the rest of the server.\n\nIf you need help, ping Staff (@Night Guard).`
+        `Please read the rules in ⁠<#${config.RULES_CHANNEL}> and use the /verify command once complete.\n\nA Staff member will then review your application and give you access to the rest of the server.\n\nIf you need help, ping Staff (@Night Guard).`
       )
       .setFooter({
         text: `${member.guild.memberCount} members on this server`,
       });
 
+    const welcomeMessage = `## Welcome ${member.user.username}\nWelcome to ${config.SERVER_NAME} <@${member.user.id}>!\n\nPlease read the rules in ⁠<#${config.RULES_CHANNEL}> and use the /verify command once complete.\n\nA Staff member will then review your application and give you access to the rest of the server.\n\nIf you need help, ping Staff (@Night Guard).\n-# ${member.guild.memberCount} members on this server`;
+
     // Send Welcome in server
     if (channel?.isTextBased()) {
-      channel.send({ embeds: [welcomeEmbed] });
+      channel.send({
+        content: welcomeMessage,
+      });
     }
 
     // DM welcome to user
-    await member.send({ embeds: [welcomeEmbed] });
+    await member.send({ content: welcomeMessage });
   } catch (error) {
     console.error("Failed to send welcome message:", error);
   }
@@ -61,7 +65,7 @@ client.on(Events.GuildMemberRemove, async (member) => {
       });
     }
   } catch (error) {
-    console.error("Failed to send welcome message:", error);
+    console.error("Failed to send leave message:", error);
   }
 });
 
