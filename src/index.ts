@@ -69,6 +69,17 @@ client.on(Events.GuildMemberRemove, async (member) => {
   }
 });
 
+client.on(Events.GuildMemberUpdate, async (oldMember, newMember) => {
+  if (
+    !oldMember.roles.cache.has(config.BLACKLIST_ROLE) &&
+    newMember.roles.cache.has(config.BLACKLIST_ROLE)
+  ) {
+    newMember.send(
+      `Hi ${newMember.user.username}!\nYou've now been verified in ${config.SERVER_NAME}.\n\nI recommend you check out the <#${config.SERVER_MAP_CHANNEL}> to get an overview of all of the channels available.`
+    );
+  }
+});
+
 client.once(Events.ClientReady, (readyClient) => {
   console.log(`Ready! Logged in as ${readyClient.user.tag}`);
 });

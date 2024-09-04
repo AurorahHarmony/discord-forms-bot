@@ -11,6 +11,7 @@ const {
   BLACKLIST_ROLE,
   SERVER_NAME,
   RULES_CHANNEL,
+  SERVER_MAP_CHANNEL,
 } = process.env;
 
 if (
@@ -21,7 +22,8 @@ if (
   !VERIFICATION_OUTPUT_CHANNEL ||
   !BLACKLIST_ROLE ||
   !SERVER_NAME ||
-  !RULES_CHANNEL
+  !RULES_CHANNEL ||
+  !SERVER_MAP_CHANNEL
 ) {
   throw new Error("Missing environment variables");
 }
@@ -35,4 +37,5 @@ export const config = {
   BLACKLIST_ROLE,
   SERVER_NAME,
   RULES_CHANNEL,
+  SERVER_MAP_CHANNEL,
 };
