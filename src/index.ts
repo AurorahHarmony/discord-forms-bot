@@ -27,16 +27,16 @@ client.on(Events.GuildMemberAdd, async (member) => {
       config.VERIFICATION_CHANNEL
     );
 
-    const welcomeEmbed = new EmbedBuilder()
-      // .setTitle(`Welcome ${member.user.username}`)
-      .setDescription(
-        `Please read the rules in ⁠<#${config.RULES_CHANNEL}> and use the /verify command once complete.\n\nA Staff member will then review your application and give you access to the rest of the server.\n\nIf you need help, ping Staff (@Night Guard).`
-      )
-      .setFooter({
-        text: `${member.guild.memberCount} members on this server`,
-      });
+    // const welcomeEmbed = new EmbedBuilder()
+    //   // .setTitle(`Welcome ${member.user.username}`)
+    //   .setDescription(
+    //     `Please read the rules in ⁠<#${config.RULES_CHANNEL}> and use the /verify command once complete.\n\nA Staff member will then review your application and give you access to the rest of the server.\n\nIf you need help, ping Staff (@Night Guard).`
+    //   )
+    //   .setFooter({
+    //     text: `${member.guild.memberCount} members on this server`,
+    //   });
 
-    const welcomeMessage = `## Welcome ${member.user.username}\nWelcome to ${config.SERVER_NAME} <@${member.user.id}>!\n\nPlease read the rules in ⁠<#${config.RULES_CHANNEL}> and use the /verify command once complete.\n\nA Staff member will then review your application and give you access to the rest of the server.\n\nIf you need help, ping Staff (@Night Guard).\n-# ${member.guild.memberCount} members on this server`;
+    const welcomeMessage = `## Welcome ${member.user.username}\nWelcome to ${config.SERVER_NAME} <@${member.user.id}>!\n\nPlease read the rules in ⁠<#${config.RULES_CHANNEL}> and use the \`/verify\` command in <#${config.VERIFICATION_CHANNEL}> once complete.\n\nA Staff member will then review your application and give you access to the rest of the server.\n\nIf you need help, ping Staff (@Night Guard).\n-# ${member.guild.memberCount} members on this server`;
 
     // Send Welcome in server
     if (channel?.isTextBased()) {
