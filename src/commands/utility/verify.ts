@@ -40,8 +40,8 @@ const verifyCommand: Command = {
 
     const intentInput = new TextInputBuilder()
       .setCustomId("intent")
-      .setLabel("What brings you to Hypnoponies?")
-      .setRequired(false)
+      .setLabel("Why did you join HP? How did you hear of us?")
+      .setRequired(true)
       .setMaxLength(400)
       .setStyle(TextInputStyle.Paragraph);
 
