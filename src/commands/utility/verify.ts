@@ -42,6 +42,7 @@ const verifyCommand: Command = {
       .setCustomId("intent")
       .setLabel("What brings you to Hypnoponies?")
       .setRequired(false)
+      .setMaxLength(400)
       .setStyle(TextInputStyle.Paragraph);
 
     const rulesReadInput = new TextInputBuilder()
@@ -49,6 +50,7 @@ const verifyCommand: Command = {
       .setLabel("Have you read and agree to uphold our rules?")
       .setPlaceholder("YES/NO")
       .setRequired(true)
+      .setMaxLength(3)
       .setStyle(TextInputStyle.Short);
 
     const ageInput = new TextInputBuilder()
@@ -56,12 +58,14 @@ const verifyCommand: Command = {
       .setLabel("What's your birth date? (Month/Day/Year)")
       .setPlaceholder("MM/DD/YYYY")
       .setRequired(true)
+      .setMaxLength(10)
       .setStyle(TextInputStyle.Short);
 
     const questionsInput = new TextInputBuilder()
       .setCustomId("questions")
       .setLabel("Do you have any questions for Staff?")
       .setRequired(false)
+      .setMaxLength(400)
       .setStyle(TextInputStyle.Paragraph);
 
     const disclaimerDummy = new TextInputBuilder()
