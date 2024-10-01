@@ -8,10 +8,10 @@ export default async (interaction: ModalSubmitInteraction<CacheType>) => {
       username: interaction.user.username,
     };
 
-    const intent = interaction.fields.getTextInputValue("intent");
-    const rulesRead = interaction.fields.getTextInputValue("rulesRead");
-    const birthDate = interaction.fields.getTextInputValue("birthDate");
-    const questions = interaction.fields.getTextInputValue("questions");
+    const intent = interaction.fields.getTextInputValue("intent") || "-";
+    const rulesRead = interaction.fields.getTextInputValue("rulesRead") || "-";
+    const birthDate = interaction.fields.getTextInputValue("birthDate") || "-";
+    const questions = interaction.fields.getTextInputValue("questions") || "-";
 
     const formSubmissionChannel = interaction.client.channels.cache.get(
       config.VERIFICATION_OUTPUT_CHANNEL
